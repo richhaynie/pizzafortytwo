@@ -1,0 +1,233 @@
+
+  
+  /*<--------------------Content Styling---------------->*/
+  
+  #landing-content {
+    color: #000000;
+    background-color: #FFFFFF;
+   text-align: center;
+  }
+  
+  #order-content, #sides-content {
+    display: none;
+    color: #000000;
+    background-color:  rgb(116,120,141, 0.1);;
+    margin-top: 100px;
+    margin-bottom: 100px;
+    text-align: center;
+  }
+  
+  #price-content {
+    margin-top: 100px;
+  }
+  
+  .page-header {
+    font-size: 65pt;
+    margin-bottom: 75px;
+    padding-bottom: 35px;
+  }
+  
+  #address-form {
+    margin-top: 30px;
+    margin-left: 40px;
+    margin-right: 40px;
+  }
+  
+  .address-spacing {
+    margin-bottom: 20px;
+  }
+  
+  #state-select {
+    margin-top: 0px;
+  }
+  
+  /*<--------------------Btn Styling---------------->*/
+  
+  #pickup-btn, #delivery-btn, #custom-pizza-btn, #submit-custom-pizza {
+    font-size: 20pt;
+    margin-top: 30px;
+  }
+  
+  #custom-pizza-btn {
+    display: none;
+  }
+  
+  #pickup-btn, #delivery-btn {
+    margin-left: 50px;
+    margin-right: 50px;
+    margin-bottom: 50px;
+  }
+  
+  #order-proceed-btn {
+    font-size: 20pt;
+    margin-top: 50px;
+    margin-bottom: 100px;
+  }
+  
+  #checkout-btn {
+    font-size: 20pt;
+    margin-top: 50px;
+    margin-bottom: 40px;
+  }
+  
+  #submit-custom-pizza {
+    margin-bottom: 35px;
+  }
+  
+  /*<--------------------Display: None---------------->*/
+  
+  #address {
+    display: none;
+  }
+  
+  /*<--------------------Custom Pizza Form Styling---------------->*/
+  
+  #form-header {
+    font-size: 20pt;
+    margin-bottom: 35px;
+  }
+  
+  #form-content {
+    margin-top: 25px;
+    margin-bottom: 50px;
+  }
+  
+  #custom-pizza {
+    /*display: none;*/
+    margin-top: 30px;
+    border-style: solid;
+    margin-left: 70px;
+    margin-right: 70px;
+  }
+  
+  
+  /*<--------------------Cart Details Styling---------------->*/
+  
+  #order-details, #default-pizza-details {
+    text-align: left;
+    margin-top: 10px;
+  }
+  
+  p {
+    margin-top: 5px;
+  }
+  
+  ul {
+    font-size: 13pt;
+  }
+  
+  /*<--------------------Default Orders Styling---------------->*/
+  
+  #default-pizzas {
+    display: none;
+  }
+  
+  .pizza-option, .side-option {
+    width: 170px;
+    height: 180px;
+    font-size: 20pt;
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+  
+  #cheese-default-size, #pep-default-size, #veggie-default-size {
+    display: none;
+  }
+  
+  .indiv-pizza-default {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+  
+
+.lbl {
+  padding: .5rem 1rem;
+  border-radius: .2rem;
+  cursor: pointer;
+  transition: all .3s;
+  transition-timing-function: ease-in-out;
+  width: 100%;
+}
+
+.lbl-default {
+  background-color: rgb(116,120,141, 0.1);
+  color: #74788d;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.lbl-default:hover {
+  background-color: #74788d;
+  color: #fff;
+}
+
+.lbl-success {
+  background-color: rgba(10, 187, 135, 0.1);
+  color: #0abb87;
+}
+
+.lbl-success:hover {
+  background-color: #0abb87;
+  color: #fff;
+}
+
+.lbl-danger {
+  background-color: rgba(253,57,122,.1);
+  color: #fd397a;
+}
+
+.lbl-danger:hover {
+  background-color: #fd397a;
+  color: #fff;
+}
+
+.lbl-primary {
+  background-color: rgba(93,120,255,.1);
+  color: #5d78ff;
+}
+
+.lbl-primary:hover {
+  background-color: #5d78ff;
+  color: #fff;
+}
+
+.lbl-warning {
+  background-color: rgba(255,184,34,.1);
+  color: #ffb822;
+}
+
+.lbl-warning:hover {
+  background-color: #ffb822;
+  color: #fff;
+}
+
+.lbl-block {
+  display: block;
+}
+
+.order-detail-list ol{
+  padding: 0px;
+  margin: 0px;
+}
+.order-detail-list ol li{
+  padding: 0px 0px 20px 27px;
+  counter-increment: list;
+  list-style-type: none;
+  position: relative;
+}
+.order-detail-list ol li:last-child{
+  padding-bottom: 0px;
+}
+.order-detail-list ol li:before{
+  color: #73a253;
+  content: counter(list) ")";
+  left: -10px;
+  position: absolute;
+  text-align: right;
+  width: 26px;
+  font-weight: bold;
+}
+
+.input-group-btn, .input-group-btn select{
+  width: 100%;
+}

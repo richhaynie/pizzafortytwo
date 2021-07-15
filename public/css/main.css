@@ -1,0 +1,18 @@
+.hidden {
+  display: none;
+}
+label {
+  width:100%;
+  display: block;
+}
+
+.navbar {
+  min-height: 115px;
+}
+.logo{
+  background-image: url(/images/logo.png) !important;
+  width: 2rem;
+  height: 2.25rem;
+  background-repeat: no-repeat;
+  background-size: cover;
+}

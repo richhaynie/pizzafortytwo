@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html class="h-100">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Pizza 42</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="/css/main.css" />
+  <link rel="stylesheet" type="text/css" href="/css/app.css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/monokai-sublime.min.css" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/solid.css"
+    integrity="sha384-r/k8YTFqmlOaqRkZuSiE9trsrDXkh07mRaoGBMoDcmA58OHILZPsk29i2BsFng1B" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/fontawesome.css"
+    integrity="sha384-4aon80D8rXCGx9ayDt85LbyUHeMWd3UiBaWliBlJ53yzm9hqN21A+o1pqoyK04h+" crossorigin="anonymous" />
+
+  <link rel="stylesheet" href="https://cdn.auth0.com/js/auth0-samples-theme/1.0/css/auth0-theme.min.css" />
+</head>
+
+<body class="h-100">
+  <div id="app" class="h-100 d-flex flex-column">
+    <div class="nav-container">
+      <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <div class="container">
+          <div class="navbar-brand logo"></div>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item">
+                <a href="/" class="nav-link route-link">Home</a>
+              </li>
+            </ul>
+            <ul class="navbar-nav d-none d-md-block">
+              <!-- Login button: show if NOT authenticated -->
+              <li class="nav-item auth-invisible">
+                <button id="qsLoginBtn" onclick="login()" class="btn btn-primary btn-margin auth-invisible hidden">
+                  Log in
+                </button>
+              </li>
+              <!-- / Login button -->
+
+              <!-- Fullsize dropdown: show if authenticated -->
+              <li class="nav-item dropdown auth-visible hidden">
+                <a class="nav-link dropdown-toggle" href="#" id="profileDropDown" data-toggle="dropdown">
+                  <!-- Profile image should be set to the profile picture from the id token -->
+                  <img alt="Profile picture" class="nav-user-profile profile-image rounded-circle" width="50" />
+                </a>
+                <div class="dropdown-menu">
+                  <!-- Show the user's full name from the id token here -->
+                  <div class="dropdown-header nav-user-name user-name"></div>
+                  <a href="/profile" class="dropdown-item dropdown-profile route-link">
+                    <i class="fas fa-user mr-3"></i> Profile
+                  </a>
+                  <a href="#" class="dropdown-item" id="qsLogoutBtn" onclick="logout()">
+                    <i class="fas fa-power-off mr-3"></i> Log out
+                  </a>
+                </div>
+              </li>
+              <!-- /Fullsize dropdown -->
+            </ul>
+
+            <!-- Responsive login button: show if NOT authenticated -->
+            <ul class="navbar-nav d-md-none auth-invisible">
+              <button class="btn btn-primary  btn-lg btn-block auth-invisible hidden" id="qsLoginBtn" onclick="login()">
+                Log in
+              </button>
+            </ul>
+            <!-- /Responsive login button -->
+
+            <!-- Responsive profile dropdown: show if authenticated -->
+            <ul class="navbar-nav d-md-none auth-visible hidden justify-content-between" style="min-height: 125px">
+              <li class="nav-item">
+                <span class="user-info">
+                  <!-- Profile image should be set to the profile picture from the id token -->
+                  <img alt="Profile picture" class="nav-user-profile d-inline-block profile-image rounded-circle mr-3"
+                    width="50" />
+                  <!-- Show the user's full name from the id token here -->
+                  <h6 class="d-inline-block nav-user-name user-name"></h6>
+                </span>
+              </li>
+              <li>
+                <i class="fas fa-user mr-3"></i>
+                <a href="/profile" class="route-link">Profile</a>
+              </li>
+
+              <li>
+                <i class="fas fa-power-off mr-3"></i>
+                <a href="#" id="qsLogoutBtn" onclick="logout()">Log out</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+
+    <div id="main-content" class="container mt-5 flex-grow-1">
+      <div id="content-home" class="page">
+        <div class="text-center hero auth-invisible hidden">
+          New Customer? <button class="btn btn-primary btn-block auth-invisible hidden" id="qsSignupBtn"
+            onclick="signup()">
+            Sign Up
+          </button>
+        </div>
+        <div class="text-center hero auth-invisible hidden">
+          Ordered Before? <button class="btn btn-primary btn-block auth-invisible hidden" id="qsLoginBtn"
+            onclick="login()">
+            Login
+          </button>
+        </div>
+        <div id="verify-email" class="alert alert-warning hidden" role="alert">
+          Before we get started taking your order it looks like you haven't verified your email. Please go check your
+          inbox.
+        </div>
+      </div>
+
+      <!-- Landing Start -->
+      <div class="jumbotron auth-visible hidden" id="landing-content">
+        <h2 id="landing-tagline">Serving your daily pizza cravings! Available through online order only.</h2>
+        <h3>Let's get Started. Are you picking this up or are we brining it to you?</h3>
+        <button type="btn" class="btn btn-primary" id="pickup-btn">Pickup</button>
+        <button type="btn" class="btn btn-danger" id="delivery-btn">Delivery</button>
+        <div class="form-group" id="address">
+          <h3>Where are we delivering? Put in your Address:</h3>
+          <!-- Address Form Start -->
+          <form id="address-form">
+            <div class="row">
+              <div class="col-xs-6">
+                <label for="first-name">First Name</label><input required type="text"
+                  class="form-control address-spacing">
+              </div>
+              <div class="col-xs-6">
+                <label for="last-name">Last Name</label><input required type="text"
+                  class="form-control address-spacing">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-6">
+                <label for="street-address">Address</label><input required type="text" class="form-control"
+                  id="street-add">
+              </div>
+              <div class="col-xs-3">
+                <label for="city-name">City</label><input required type="text" class="form-control" id="city-add">
+              </div>
+              <div class="col-xs-1">
+                <label for="state-name">State</label>
+                <select required class="form-control delivery-address" id="state-select">
+                  <option></option>
+                  <option>WA</option>
+                  <option>OR</option>
+                  <option>PA</option>
+                </select>
+              </div>
+              <div class="col-xs-2">
+                <label for="zipcode">Zipcode</label><input required type="text" class="form-control" id="zip-add">
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary" id="order-proceed-btn">Submit</button>
+          </form>
+        </div>
+      </div>
+      <!-- Landing End -->
+      <!-- Order Content Start -->
+      <div class="jumbotron auth-visible hidden" id="order-content">
+        <!-- Custom Pizza Form Start -->
+        <form id="custom-pizza">
+          <h3 id="form-header">Custom Pizza Form</h3>
+          <div id="container">
+            <div class="input-group">
+              <div class="input-group-btn">
+                  <label class="lbl lbl-default" for="size">Size</label>
+                  <select required id="size">
+                    <option></option>
+                    <option value="Small 10 in.">Small, 10"</option>
+                    <option value="Medium 14 in.">Medium, 14"</option>
+                    <option value="Large 18 in.">Large, 18"</option>
+                  </select>
+              </div>
+            </div>
+            <div class="input-group">
+              <div class="input-group-btn">
+                <label class="lbl lbl-default" for="sauce">Sauce</label>
+                <select required id="sauce">
+                    <option></option>
+                    <option value="tomato sauce">Tomato</option>
+                    <option value="alfredo sauce">Alfredo</option>
+                  </select>
+                </label>
+              </div>
+            </div>
+            <div class="input-group">
+              <div class="input-group-btn">
+                <label class="lbl lbl-default" for="cheese">Cheese</label>
+                <select required id="cheese">
+                    <option></option>
+                    <option value="cheese">Cheese</option>
+                    <option value="light cheese">Light Cheese</option>
+                    <option value="extra cheese">Extra Cheese</option>
+                    <option value="no cheese">None</option>
+                  </select>
+                </label>
+              </div>
+            </div>
+
+            <div class="input-group">
+              <div class="input-group-btn">
+                <label class="lbl lbl-default" for="veggie1">Veggie Topping 1</label>
+                  <select required id="veggie1">
+                    <option></option>
+                    <option value="onions">Onions</option>
+                    <option value="green peppers">Green Peppers</option>
+                    <option value="olives">Black Olives</option>
+                    <option value="spinach">Spinach</option>
+                    <option value="mushrooms">Mushrooms</option>
+                  </select>
+              </div>
+            </div>
+            <div class="input-group">
+              <div class="input-group-btn">
+                <label class="lbl lbl-default" for="veggie2">Veggie Topping 2</label>
+                   <select required id="veggie2">
+                    <option></option>
+                    <option value="onions">Onions</option>
+                    <option value="green peppers">Green Peppers</option>
+                    <option value="olives">Black Olives</option>
+                    <option value="spinach">Spinach</option>
+                    <option value="mushrooms">Mushrooms</option>
+                  </select>
+              </div>
+            </div>
+
+            <div class="input-group">
+              <div class="input-group-btn">
+                <label class="lbl lbl-default" for="meat">Meat</label>
+                   <select required id="meat">
+                    <option></option>
+                    <option value="chicken">Chicken</option>
+                    <option value="pepperoni">Pepperoni</option>
+                    <option value="bacon">Canadian Bacon</option>
+                    <option value="sausage">Sausage</option>
+                  </select>
+              </div>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-danger  btn-lg btn-block" id="submit-custom-pizza">Add Pizza</button>
+          
+      </form>
+       <!-- Custom Pizza Form End -->
+       <div class="input-group sides-content">
+        <div class="input-group-btn">
+          <label class="lbl lbl-default"><span>Sides</span>
+            <button type="btn" class="input-group-btn side-option" id="breadsticks">Breadsticks</button>
+            <button type="btn" class="input-group-btn side-option" id="brownie">Brownie</button>
+            <button type="btn" class="input-group-btn side-option" id="soda">Italian Soda</button>
+        </div>
+      </div>
+        <!-- Cart Start -->
+        <div id="price-content">
+          <h1 class="page-header">Cart</h1>
+          <h2>Price: $ <span id="final-cost"></span></h2>
+          <div id="order-details">
+            <h3 class="text-center text-uppercase"><strong> Pizza(s) </strong> </h3>
+            <div class="order-detail-list">
+              <ol id="pizza-details">
+              </ol>
+            </div>
+            <h3 class="text-center text-uppercase"><strong> Side(s) </strong> </h3>
+              <div class="order-detail-list">
+                <ol id="sides-details"></ol>
+              </div>
+            <button type="btn" class="btn btn-primary btn-lg btn-block" id="checkout-btn"
+              onclick="orderPizza()">Checkout</button>
+            <h3><span id="delivery-option"></span></h3>
+            <pre id="api-call-result"></pre>
+
+          </div>
+          <!-- Cart End -->
+          <!-- Order Content End -->
+        </div>
+      </div>
+
+
+      <div class="page auth-visible hidden" id="content-profile">
+        <div class="container">
+          <div class="row align-items-center profile-header">
+            <div class="col-md-2">
+              <img alt="User's profile picture" class="rounded-circle img-fluid profile-image mb-3 mb-md-0" />
+            </div>
+            <div class="col-md">
+              <h2 class="user-name"></h2>
+              <p class="lead text-muted user-email"></p>
+            </div>
+          </div>
+          <div class="row"> Order History:
+            <pre class="rounded">
+                <code id="history-data" class="json"></code></pre>
+          </div>
+          <div class="row">
+            <pre class="rounded">
+                <code id="profile-data" class="json"></code></pre>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+
+    <footer class="bg-light text-center p-5">
+      <p>
+
+      </p>
+    </footer>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.auth0.com/js/auth0-spa-js/1.13/auth0-spa-js.production.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/pizza.js"></script>
+  <script src="js/app.js"></script>
+</body>
+
+</html>
